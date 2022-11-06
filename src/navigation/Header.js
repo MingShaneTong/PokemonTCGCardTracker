@@ -1,25 +1,18 @@
 import React from 'react';
 import { Appbar } from 'react-native-paper';
 
-export default function Header({ scene, previous, navigation }) {
-	// const { options } = scene.descriptor;
-	const title = "Title";
-	// options.headerTitle !== undefined
-	//   ? options.headerTitle
-	//   : options.title !== undefined
-	//   ? options.title
-	//   : scene.route.name;
-
-	console.log(previous);
+export default function Header({ options, navigation, back }){//{ scene, previous, navigation }) {
+	const title = options.headerTitle !== undefined
+	  ? options.headerTitle
+	  : options.title !== undefined
+	  ? options.title
+	  : scene.route.name;
 
 	return (
 		<Appbar.Header>
-			{previous ? 
-				<Appbar.BackAction onPress={ navigation.pop }/> : <></> 
-			}
+			{back ? <Appbar.BackAction onPress={navigation.goBack} /> : null}
 			<Appbar.Content 
-				title={ title } 
-				style={{ alignItems: 'center' }}
+				title={ title }
 			/>
 		</Appbar.Header>
 	);

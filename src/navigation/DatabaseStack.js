@@ -13,20 +13,18 @@ export default function DatabaseStack() {
         <Stack.Navigator
             initialRouteName="DatabaseScreen"
             screenOptions={{
-                header: ({ scene, previous, navigation }) => (
-                    <Header scene={scene} previous={previous} navigation={navigation} />
-                )
+                header: (props) => <Header {...props} />
             }}
         >
             <Stack.Screen
                 name="DatabaseScreen"
                 component={DatabaseScreen}
-                options={{ headerTitle: 'Database' }}
+                options={{ title: 'Database' }}
             />
             <Stack.Screen
                 name="ExpansionSetScreen"
                 component={ExpansionSetScreen}
-                options={{ headerTitle: 'Expansion Set' }}
+                options={{ title: 'Expansion Set' }}
             />
         </Stack.Navigator>
     );

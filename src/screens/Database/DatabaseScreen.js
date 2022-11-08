@@ -1,6 +1,6 @@
 import React from 'react';
-import { StyleSheet, ScrollView } from 'react-native';
-import { Appbar, Button, Text, ActivityIndicator } from 'react-native-paper';
+import { ScrollView } from 'react-native';
+import { ActivityIndicator } from 'react-native-paper';
 import _ from "lodash";
 import pokemon from 'pokemontcgsdk';
 
@@ -35,7 +35,7 @@ export default class DatabaseScreen extends React.Component {
 			this.setState({
 				loading: false,
 				sets: setSeries
-			})
+			});
         })
     }
 

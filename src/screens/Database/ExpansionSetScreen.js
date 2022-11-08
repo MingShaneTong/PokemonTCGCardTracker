@@ -1,5 +1,5 @@
 import React from 'react';
-import { ScrollView, View, Dimensions, StyleSheet, FlatList, Image } from 'react-native';
+import { ScrollView, View, Dimensions, StyleSheet, FlatList, Image, TouchableOpacity } from 'react-native';
 import { ActivityIndicator } from 'react-native-paper';
 import _ from "lodash";
 import pokemon from 'pokemontcgsdk';
@@ -14,7 +14,8 @@ export default class ExpansionSetScreen extends React.Component {
 		
 		// set title of the header
 		this.set = props.route.params;
-		this.props.navigation.setOptions({ title: this.set.name });
+		this.navigation = props.navigation;
+		this.navigation.setOptions({ title: this.set.name });
 	}
 
 	componentDidMount() {
@@ -30,28 +31,27 @@ export default class ExpansionSetScreen extends React.Component {
 		});
 	}
 
-	_renderItem({ index, item }) {
-		// renders the image of the card
-		return (
-			<Image 
-				key={index}
-				style={styles.image} 
-				source={{ uri: item.images.small }} 
-			/>
-		);
-	}
-
 	render() {
+		let navigation = this.navigation;
+		const _renderItem = ({ index, item }) => {
+			// renders the image of the card
+			const onPress = () => navigation.navigate("CardScreen", item);
+			return (
+				<TouchableOpacity key={index} onPress={onPress} > 
+					<Image style={styles.image} source={{ uri: item.images.small }} />
+				</TouchableOpacity>
+			);
+		}
+
 		return (
 			<View>
 				{this.state.loading ? 
 					<ActivityIndicator animating={true} size="large" /> : 
 					<FlatList
-						keyExtractor={(item, index) => index}
-						renderItem={this._renderItem}
+						renderItem={_renderItem}
 						data={this.state.cards}
 						numColumns={numColumns}
-					/>		
+					/>
 				}
 			</View>
 		);

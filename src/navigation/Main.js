@@ -4,6 +4,7 @@ import { NavigationContainer } from '@react-navigation/native';
 
 import DatabaseStack from "./DatabaseStack";
 import CollectionScreen from "../screens/Collection/CollectionScreen";
+import AccountScreen from "../screens/Account/AccountScreen";
 import ScanScreen from "../screens/Scan/ScanScreen";
 import SettingsScreen from '../screens/Settings/SettingsScreen'
 
@@ -27,6 +28,13 @@ export default function BottomTabs() {
 					component={CollectionScreen}
 					options={{
 						tabBarIcon: "format-list-bulleted",
+					}}
+				/>
+				<Tab.Screen
+					name="Account"
+					component={AccountScreen}
+					options={{
+						tabBarIcon: "account",
 					}}
 				/>
 				<Tab.Screen

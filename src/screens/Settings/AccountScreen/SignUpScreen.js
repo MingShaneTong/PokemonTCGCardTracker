@@ -1,7 +1,7 @@
 import { useNavigation } from '@react-navigation/native';
 import React, { useState } from 'react';
 import { StyleSheet, View, TextInput, KeyboardAvoidingView, Button } from 'react-native';
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
 
 import { auth } from "../../../api/firebase"
 
@@ -13,6 +13,16 @@ export default function SignUpScreen() {
 
 	const handleSignUp = () => {
 		createUserWithEmailAndPassword(
+			auth, email, password
+		).then(
+			cred => navigation.navigate("SettingsScreen")
+		).catch(
+			err => console.error(err.message)
+		);
+	}
+
+	const handleLogIn = () => {
+		signInWithEmailAndPassword(
 			auth, email, password
 		).then(
 			cred => navigation.navigate("SettingsScreen")
@@ -41,7 +51,11 @@ export default function SignUpScreen() {
 
 			</View>
 			<View style={styles.buttonContainer}>
-				<Button style={styles.button} title="Login" />
+				<Button 
+					title="Login" 
+					style={styles.button} 
+					onPress={handleLogIn}
+				/>
 				<Button 
 					title="Register" 
 					style={styles.button} 

@@ -1,24 +1,23 @@
+import { useNavigation } from '@react-navigation/native';
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, TextInput, KeyboardAvoidingView, Button } from 'react-native';
-import { Appbar, Provider } from 'react-native-paper';
-import { createUserWithEmailAndPassword } from 'firebase/auth';
-import { auth } from '../../api/firebase'
+import { StyleSheet, View, TextInput, KeyboardAvoidingView, Button } from 'react-native';
+import { createUserWithEmailAndPassword } from "firebase/auth";
 
-export default function AccountScreen () {
+import { auth } from "../../../api/firebase"
+
+export default function SignUpScreen() {
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
 
+	let navigation = useNavigation();
+
 	const handleSignUp = () => {
-		console.log(email, password);
 		createUserWithEmailAndPassword(
 			auth, email, password
 		).then(
-			userCredentials => {
-				const user = userCredentials.user;
-				console.log(userCredentials.email);
-			}
+			cred => navigation.navigate("SettingsScreen")
 		).catch(
-			error => alert(error.message)
+			err => console.error(err.message)
 		);
 	}
 
@@ -36,8 +35,8 @@ export default function AccountScreen () {
 				<TextInput 
 					placeholder='Password' 
 					style={styles.input} 
-					secureTextEntry 
 					onChangeText={setPassword}
+					secureTextEntry
 				/>
 
 			</View>

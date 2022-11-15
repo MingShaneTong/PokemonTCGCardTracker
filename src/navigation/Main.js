@@ -4,18 +4,15 @@ import { NavigationContainer } from '@react-navigation/native';
 
 import DatabaseStack from "./DatabaseStack";
 import CollectionScreen from "../screens/Collection/CollectionScreen";
-import AccountScreen from "../screens/Account/AccountScreen";
 import ScanScreen from "../screens/Scan/ScanScreen";
-import SettingsScreen from '../screens/Settings/SettingsScreen'
+import SettingsStack from './SettingsStack'
 
 const Tab = createMaterialBottomTabNavigator();
 
 export default function BottomTabs() {
 	return (
         <NavigationContainer>
-			<Tab.Navigator
-				initialRouteName="Database"
-			>
+			<Tab.Navigator initialRouteName="Database">
 				<Tab.Screen
 					name="Database"
 					component={DatabaseStack}
@@ -31,13 +28,6 @@ export default function BottomTabs() {
 					}}
 				/>
 				<Tab.Screen
-					name="Account"
-					component={AccountScreen}
-					options={{
-						tabBarIcon: "account",
-					}}
-				/>
-				<Tab.Screen
 					name="Scan"
 					component={ScanScreen}
 					options={{
@@ -46,7 +36,7 @@ export default function BottomTabs() {
 				/>
 				<Tab.Screen
 					name="Settings"
-					component={SettingsScreen}
+					component={SettingsStack}
 					options={{
 						tabBarIcon: "cog",
 					}}

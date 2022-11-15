@@ -31,7 +31,7 @@ export default function DatabaseScreen() {
 			// set the states of the components
 			setLoading(false);
 			setData(setSeries);
-        }).catch(err => console.error(err.message));
+        }).catch(err => console.error("Database Error: " + err.message));
     });
 	
 	const navigation = useNavigation();

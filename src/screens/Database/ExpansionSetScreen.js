@@ -20,7 +20,7 @@ export default function ExpansionSetScreen({ route, navigation }) {
 		}).then(cards => {
 			setLoading(false);
 			setCards(cards['data']);
-		}).catch(err => console.error(err.message));
+		}).catch(err => console.error("Expansion Set Error: " + err.message));
 	});
 
 	// renders the image of the card

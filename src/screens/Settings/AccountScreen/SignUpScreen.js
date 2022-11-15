@@ -17,7 +17,7 @@ export default function SignUpScreen() {
 		).then(
 			cred => navigation.navigate("SettingsScreen")
 		).catch(
-			err => console.error(err.message)
+			err => console.error("Sign Up Error: " + err.message)
 		);
 	}
 
@@ -27,7 +27,7 @@ export default function SignUpScreen() {
 		).then(
 			cred => navigation.navigate("SettingsScreen")
 		).catch(
-			err => console.error(err.message)
+			err => console.error("Log In Error: " + err.message)
 		);
 	}
 

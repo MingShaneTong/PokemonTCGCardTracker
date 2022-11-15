@@ -12,7 +12,7 @@ export default function SignUpScreen() {
 		signOut(auth).then(
 			cred => navigation.navigate("SettingsScreen")
 		).catch(
-			err => console.error(err.message)
+			err => console.error("Sign Out Error: " + err.message)
 		);
 	}
 

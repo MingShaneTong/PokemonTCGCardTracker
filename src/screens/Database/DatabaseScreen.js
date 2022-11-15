@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { useNavigation } from '@react-navigation/native';
 import { ScrollView } from 'react-native';
 import { ActivityIndicator } from 'react-native-paper';
 import _ from "lodash";
@@ -7,16 +8,11 @@ import pokemon from 'pokemontcgsdk';
 import ExpansionList from './DatabaseScreen/ExpansionList';
 
 
-export default class DatabaseScreen extends React.Component {
-	constructor(props) {
-		super(props);
-		this.state = {
-			loading: true,
-			sets: undefined
-		};
-	}
+export default function DatabaseScreen() {
+	const [loading, setLoading] = useState(true);
+	const [data, setData] = useState([]);
 
-	componentDidMount() {
+	useEffect(() => {
 		// loads the pokemon sets from the api
         pokemon.set.where({ 
             select: "id,name,series,releaseDate,images",
@@ -32,23 +28,19 @@ export default class DatabaseScreen extends React.Component {
             }
 			setSeries.reverse();
 
-			this.setState({
-				loading: false,
-				sets: setSeries
-			});
-        })
-    }
-
-	render() {
-		const navigation = this.props.navigation;
-		
-		return (
-			<ScrollView>
-				{this.state.loading ? 
-					<ActivityIndicator animating={true} size="large" /> : 
-					<ExpansionList sets={this.state.sets} navigation={navigation} />
-				}
-			</ScrollView>
-		);
-	}
+			// set the states of the components
+			setLoading(false);
+			setData(setSeries);
+        }).catch(err => console.error(err.message));
+    });
+	
+	const navigation = useNavigation();
+	return (
+		<ScrollView>
+			{loading ? 
+				<ActivityIndicator animating={true} size="large" /> : 
+				<ExpansionList sets={data} />
+			}
+		</ScrollView>
+	);
 }

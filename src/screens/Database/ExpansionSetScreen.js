@@ -9,40 +9,70 @@ export default function ExpansionSetScreen({ route, navigation }) {
 	const { set } = route.params;
 	const [loading, setLoading] = useState(true);
 	const [cards, setCards] = useState([]);
+	const [currentPage, setCurrentPage] = useState(1);
+	const [finished, setFinished] = useState(false);
 
 	useEffect(() => {
 		navigation.setOptions({ title: set.name });
+		getData();
+	}, [currentPage]);
+
+	// loads cards for each page
+	const getData = () => {
+		if(finished) 	return;
 		
-		// get card images of set
 		pokemon.card.where({
 			q: "set.id:"+set.id,
-			select: "id,name,images"
-		}).then(cards => {
+			select: "id,name,images",
+			pageSize: 24,
+			page: currentPage
+		}).then(resCards => {
+			// check if there are more cards
 			setLoading(false);
-			setCards(cards['data']);
-		}).catch(err => console.error("Expansion Set Error: " + err.message));
-	});
+			if(resCards['count'] <= 0) {
+				setFinished(true);
+			} else {
+				setCards(cards.concat(resCards['data']));
+			}
+		}).catch(
+			err => console.error("Expansion Set Error: " + err.message)
+		);
+	}
+
+	// increment the page
+	const handleLoadMore = () => {
+		if(finished || loading) 	return;
+		setLoading(true);
+		setCurrentPage(currentPage + 1);
+	}
 
 	// renders the image of the card
-	const _renderItem = ({ index, item }) => {
+	const renderItem = ({ item }) => {
 		const onPress = () => navigation.navigate("CardScreen", { card: item});
 		return (
-			<TouchableOpacity key={index} onPress={onPress}> 
+			<TouchableOpacity onPress={onPress}> 
 				<Image style={styles.image} source={{ uri: item.images.small }} />
 			</TouchableOpacity>
 		);
 	}
 
+	// renders loader at bottom of list if not complete
+	const renderFooter = () => {
+		return finished ? null : 
+			<ActivityIndicator animating={true} size="large" />;
+	}
+
 	return (
 		<View>
-			{loading ? 
-				<ActivityIndicator animating={true} size="large" /> : 
-				<FlatList
-					renderItem={_renderItem}
-					data={cards}
-					numColumns={numColumns}
-				/>
-			}
+			<FlatList
+				renderItem={renderItem}
+				data={cards}
+				numColumns={numColumns}
+				keyExtractor={(item, index) => index.toString()}
+				ListFooterComponent={renderFooter}
+				onEndReached={handleLoadMore}
+				onEndReachedThreshold={0.01}
+			/>
 		</View>
 	);
 }	

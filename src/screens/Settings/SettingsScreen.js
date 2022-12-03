@@ -1,11 +1,11 @@
-import React, { useContext } from "react";
-import { StyleSheet, Text, View } from 'react-native';
-import { Appbar, Provider, List, Button } from 'react-native-paper';
+import React from "react";
+import { Text } from 'react-native';
+import { Button } from 'react-native-paper';
 
-import { AuthContext } from '../../context/auth'
+import { auth } from "../../api/firebase";
 
 export default function SettingsScreen({ navigation }) {
-	const { user } = useContext(AuthContext);
+	let user = auth.currentUser;
 
 	const handleAccountPress = () => {
 		navigation.navigate("AccountScreen");

@@ -3,7 +3,7 @@ import { createMaterialBottomTabNavigator } from "@react-navigation/material-bot
 import { NavigationContainer } from '@react-navigation/native';
 
 import DatabaseStack from "./DatabaseStack";
-import CollectionScreen from "../screens/Collection/CollectionScreen";
+import CollectionStack from "./CollectionStack";
 import ScanScreen from "../screens/Scan/ScanScreen";
 import SettingsStack from './SettingsStack'
 
@@ -22,7 +22,7 @@ export default function BottomTabs() {
 				/>
 				<Tab.Screen
 					name="Collection"
-					component={CollectionScreen}
+					component={CollectionStack}
 					options={{
 						tabBarIcon: "format-list-bulleted",
 					}}

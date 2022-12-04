@@ -1,11 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, Image, StyleSheet } from 'react-native';
 import { Modal } from 'react-native-paper';
 
 import NumberInput from '../../../components/NumberInput';
-import { setCardForUser } from '../../../api/firestore'
+import DataStore from '../../../api/firestore'
 
 export default function CardModal({ card, visible, onDismiss }){
+	const [loading, setLoading] = useState(true);
 	const [numCollected, setNumCollected] = useState(0);
 	const [numWanted, setNumWanted] = useState(0);
 
@@ -14,11 +15,27 @@ export default function CardModal({ card, visible, onDismiss }){
 	const height = width / 2.5 * 3.5;
 
 	function saveOnDismiss() {
-		setCardForUser({ card, numCollected, numWanted })
+		DataStore.Cards.setCardDoc({ card, numCollected, numWanted })
 		setNumCollected(0);
 		setNumWanted(0);
+		setLoading(true);
 		onDismiss();
 	}
+
+	useEffect(() => {
+		async function getNumCollectedAndWanted() {
+			// get num collected and wanted from db
+			if(!card) { return; }
+			const cardDoc = await DataStore.Cards.getCardDoc(card.id);
+
+			if (cardDoc.exists()) {
+				setNumCollected(cardDoc.data().numCollected);
+				setNumWanted(cardDoc.data().numWanted);
+			}
+			setLoading(false);
+		}
+		getNumCollectedAndWanted();
+	}, [card]);
 
 	return (
 		<Modal visible={visible} onDismiss={saveOnDismiss}>
@@ -29,20 +46,18 @@ export default function CardModal({ card, visible, onDismiss }){
 						source={{ uri: card.images.small }} 
 					/>
 					<Text variant="labelMedium">Number Collected</Text>
-					<NumberInput 
-						initialValue={0} 
+					{loading ? null : <NumberInput 
 						minValue={0}
+						value={numCollected}
 						onChange={setNumCollected} 
-						promptTitle="Number Collected"
-					/>
+					/>}
 
 					<Text variant="labelMedium">Number Wanted</Text>
-					<NumberInput 
-						initialValue={0} 
+					{loading ? null : <NumberInput 
 						minValue={0}
+						value={numWanted}
 						onChange={setNumWanted} 
-						promptTitle="Number Wanted"
-					/>
+					/>}
 				</View>
 			)}
 		</Modal>

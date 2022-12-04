@@ -2,19 +2,15 @@ import { useState } from "react";
 import { View, Alert } from "react-native";
 import { Button, IconButton } from "react-native-paper";
 
-export default function NumberInput({ initialValue, minValue, onChange, promptTitle }) {
-    const [value, setValue] = useState(initialValue);
-    
+export default function NumberInput({ minValue, value, onChange }) {
     function increment() {
         let val = value + 1;
-        setValue(val);
         onChange(val);
     }
     
     function decrement() {
         let val = value - 1;
         if(minValue != undefined && minValue <= val){
-            setValue(val);
             onChange(val);
         }
     }
@@ -22,7 +18,6 @@ export default function NumberInput({ initialValue, minValue, onChange, promptTi
     function onChangeText(val) {
         val = parseInt(val);
         if(!isNaN(val)) {
-            setValue(val);
             onChange(val);
         }
     }

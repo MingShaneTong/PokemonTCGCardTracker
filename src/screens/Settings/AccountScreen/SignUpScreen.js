@@ -3,7 +3,8 @@ import React, { useState } from 'react';
 import { StyleSheet, View, TextInput, KeyboardAvoidingView, Button } from 'react-native';
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
 
-import { auth } from "../../../api/firebase"
+import { auth } from "../../../api/firebase";
+import DataStore from "../../../api/firestore";
 
 export default function SignUpScreen() {
 	const [email, setEmail] = useState('');
@@ -15,7 +16,10 @@ export default function SignUpScreen() {
 		createUserWithEmailAndPassword(
 			auth, email, password
 		).then(
-			cred => navigation.navigate("SettingsScreen")
+			() => {
+				DataStore.createNewUserDoc();
+				navigation.navigate("SettingsScreen");
+			}
 		).catch(
 			err => console.error("Sign Up Error: " + err.message)
 		);
@@ -25,7 +29,7 @@ export default function SignUpScreen() {
 		signInWithEmailAndPassword(
 			auth, email, password
 		).then(
-			cred => navigation.navigate("SettingsScreen")
+			() => navigation.navigate("SettingsScreen")
 		).catch(
 			err => console.error("Log In Error: " + err.message)
 		);

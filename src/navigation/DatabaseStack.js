@@ -5,7 +5,6 @@ import { NavigationContainer } from '@react-navigation/native';
 import Header from './Header'
 import DatabaseScreen from '../screens/Database/DatabaseScreen';
 import ExpansionSetScreen from '../screens/Database/ExpansionSetScreen';
-import CardScreen from '../screens/Database/CardScreen';
 
 const Stack = createStackNavigator();
 
@@ -26,11 +25,6 @@ export default function DatabaseStack() {
                 name="ExpansionSetScreen"
                 component={ExpansionSetScreen}
                 options={{ title: 'Expansion Set' }}
-            />
-            <Stack.Screen
-                name="CardScreen"
-                component={CardScreen}
-                options={{ title: 'Card' }}
             />
         </Stack.Navigator>
     );

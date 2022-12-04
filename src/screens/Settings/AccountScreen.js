@@ -1,13 +1,12 @@
-import React, { useContext } from 'react';
+import React from 'react';
+
+import { auth } from "../../api/firebase";
 
 import SignUpScreen from "./AccountScreen/SignUpScreen";
 import LogOutScreen from "./AccountScreen/LogOutScreen";
 
-import { AuthContext } from "../../context/auth";
-
 export default function AccountScreen() {
-	const { user } = useContext(AuthContext);
-
+	const user = auth.currentUser;
 	if (user) {
 		return <LogOutScreen />;
 	} else {

@@ -4,6 +4,7 @@ import { StyleSheet, View, TextInput, KeyboardAvoidingView, Button } from 'react
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
 
 import { auth } from "../../../api/firebase";
+import { createNewUserDoc } from "../../../api/firestore";
 
 export default function SignUpScreen() {
 	const [email, setEmail] = useState('');
@@ -15,7 +16,10 @@ export default function SignUpScreen() {
 		createUserWithEmailAndPassword(
 			auth, email, password
 		).then(
-			() => navigation.navigate("SettingsScreen")
+			() => {
+				createNewUserDoc();
+				navigation.navigate("SettingsScreen");
+			}
 		).catch(
 			err => console.error("Sign Up Error: " + err.message)
 		);

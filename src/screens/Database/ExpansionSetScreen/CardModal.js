@@ -3,6 +3,7 @@ import { View, Text, Image, StyleSheet } from 'react-native';
 import { Modal } from 'react-native-paper';
 
 import NumberInput from '../../../components/NumberInput';
+import { setCardForUser } from '../../../api/firestore'
 
 export default function CardModal({ card, visible, onDismiss }){
 	const [numCollected, setNumCollected] = useState(0);
@@ -13,7 +14,7 @@ export default function CardModal({ card, visible, onDismiss }){
 	const height = width / 2.5 * 3.5;
 
 	function saveOnDismiss() {
-		// save card
+		setCardForUser({ card, numCollected, numWanted })
 		setNumCollected(0);
 		setNumWanted(0);
 		onDismiss();

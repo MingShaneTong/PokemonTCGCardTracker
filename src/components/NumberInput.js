@@ -13,7 +13,7 @@ export default function NumberInput({ initialValue, minValue, onChange, promptTi
     
     function decrement() {
         let val = value - 1;
-        if(minValue && minValue <= val){
+        if(minValue != undefined && minValue <= val){
             setValue(val);
             onChange(val);
         }
